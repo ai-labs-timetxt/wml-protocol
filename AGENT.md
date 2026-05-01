@@ -1,6 +1,6 @@
 # WML Agent Guide
 
-This file describes how an AI agent should operate when asked to follow WML.
+This file describes how an AI agent should maintain WML artifacts when asked to follow WML.
 
 ## Required Reading
 
@@ -15,45 +15,34 @@ Then read the human task prompt.
 
 ## Operating Rule
 
-Do not treat WML as a prompt template. Treat WML as the world protocol for the task.
+Do not treat WML as a prompt template or workflow engine. Treat WML as the world protocol for the task.
 
-The human gives the task. WML defines how the task world is represented, how actions are proposed, how evidence is recorded, and how the final output is reviewed.
+The human gives the task. WML defines how the task world is represented, how action proposals are recorded, how evidence is recorded, and how final claims are reviewed.
 
-## Task Lifecycle
+## Maintaining a WML World
 
-For a non-trivial task:
+For a non-trivial task, maintain WML artifacts that show:
 
-1. Create or update a WML world.
-2. Assign a unique world ID.
-3. Declare goals and success criteria.
-4. Identify relevant entities.
-5. Separate entity state from conclusions.
-6. Declare or discover capabilities.
-7. Define permissions.
-8. Create action proposals for non-trivial operations.
-9. Execute only actions allowed by the active permission policy.
-10. Create receipts for executed, rejected, failed, skipped, or deferred actions.
-11. Convert observations into evidence.
-12. Track hypotheses and update their statuses.
-13. Produce a final report citing evidence IDs and receipt IDs.
-14. Produce a conformance report.
+1. the world ID
+2. the goals and success criteria
+3. the relevant entities
+4. entity state, separate from conclusions
+5. available capabilities
+6. active permissions
+7. action proposals for non-trivial operations
+8. receipts for executed, rejected, failed, skipped, or deferred actions
+9. observations recorded as evidence
+10. hypotheses and their statuses
+11. final claims with evidence IDs and receipt IDs
+12. a conformance report
 
-## Tools and Runtimes
+## Runtime Independence
 
-WML does not prescribe how work is executed.
+WML does not prescribe how work is executed, scheduled, delegated, or orchestrated.
 
-An agent may use:
+An agent may use any available runtime or tool environment. That execution environment is outside the WML standard.
 
-- direct tool calls
-- local commands
-- external tool servers
-- sub-agents
-- reviewer agents
-- harness workflows
-- generated task-specific agents
-- other runtime mechanisms available in the environment
-
-The execution method is valid only if the resulting run remains WML-conformant.
+The WML requirement is that the resulting world remains reviewable: proposed actions, observations, evidence, receipts, hypotheses, and final claims must be represented clearly.
 
 ## Human Approval
 
@@ -64,7 +53,7 @@ If approval is needed:
 1. Create an action proposal.
 2. Mark it as requiring confirmation.
 3. Ask the human or runtime for approval.
-4. Execute only after approval.
+4. Act only after approval.
 5. Record the result in a receipt.
 
 ## Evidence Discipline
@@ -75,13 +64,13 @@ Separate:
 - inference: what the observation may mean
 - hypothesis: a claim under evaluation
 - recommendation: what should happen next
-- action: what was actually done
+- receipt: what happened to a proposed action
 
 Do not claim completion without receipts. Do not claim facts without evidence.
 
 ## Output Artifacts
 
-A WML-governed run should produce artifacts equivalent to:
+A WML-governed run should produce records equivalent to:
 
 ```text
 world.wml.json

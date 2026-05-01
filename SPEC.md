@@ -7,9 +7,9 @@ Version: 0.1
 
 World Markup Language, or WML, is a machine-readable world protocol for AI agents.
 
-WML exists so an agent can understand a task world, reason about what is allowed, propose actions, collect evidence, record receipts, track hypotheses, and produce reviewable results.
+WML exists so an agent can describe a task world, reason about what is allowed, propose actions, record evidence, record receipts, track hypotheses, and produce reviewable results.
 
-WML does not render a human interface. WML describes what an agent can understand, investigate, and safely change.
+WML does not render a human interface and does not execute a workflow. WML describes what an agent can understand, investigate, propose, observe, and report.
 
 ## 2. Core Principle
 
@@ -17,11 +17,11 @@ WML does not render a human interface. WML describes what an agent can understan
 Model proposes. Runtime or reviewer disposes.
 ```
 
-An agent may plan, interpret, and propose. A runtime, reviewer, validator, or human should be able to verify what happened from WML artifacts.
+An agent may plan, interpret, and propose. A reviewer, validator, runtime, or human should be able to verify what was claimed and recorded from WML artifacts.
 
 ## 3. World
 
-A WML world is the top-level task environment.
+A WML world is the top-level description of a task environment.
 
 A world should define:
 
@@ -70,7 +70,7 @@ State is not the same as:
 - desired future condition
 - final conclusion
 
-An agent should update state only through evidence-backed observation or through a receipt for an approved action.
+State should be updated only through evidence-backed observation or through a receipt for an approved action.
 
 ## 6. Goal
 
@@ -107,7 +107,7 @@ A capability should include:
 - `expected_effect`
 - `risk`
 
-The agent should produce an action proposal before using a non-trivial capability.
+A non-trivial use of a capability should be represented by an action proposal.
 
 ## 8. Permission
 
@@ -237,7 +237,7 @@ The report should identify:
 
 ## 15. Extensions
 
-Domain extensions may define domain-specific entity types, permission classes, evidence sources, capability conventions, and playbooks.
+Domain extensions may define domain-specific entity types, permission classes, evidence sources, and capability conventions.
 
 Extensions must not change the core WML requirement that actions, evidence, state, hypotheses, receipts, and final reports remain reviewable.
 

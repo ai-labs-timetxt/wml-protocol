@@ -1,6 +1,6 @@
 # WML Conformance
 
-A WML run is conformant when another agent, human, validator, or runtime can review the artifacts and determine what the task world was, what was allowed, what happened, what evidence was collected, and which claims are justified.
+A WML run is conformant when another agent, human, validator, or runtime can review the artifacts and determine what the task world was, what was allowed, what was proposed, what was observed, what receipts were recorded, and which claims are justified.
 
 ## Checklist
 

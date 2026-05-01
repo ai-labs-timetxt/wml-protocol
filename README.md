@@ -7,7 +7,7 @@ WML is an agent-native world protocol. It is not HTML for humans, not a UI frame
 > HTML describes pages for human browsers.  
 > WML describes worlds for AI agents.
 
-WML gives AI agents a shared way to represent a task world: entities, state, goals, capabilities, permissions, action proposals, evidence, hypotheses, receipts, and final reports.
+WML gives AI agents a shared way to describe a task world: entities, state, goals, capabilities, permissions, action proposals, evidence, hypotheses, receipts, and final reports.
 
 The model proposes. A runtime, reviewer, validator, or human disposes.
 
@@ -26,7 +26,7 @@ EXAMPLE.wml.json a minimal WML world
 LICENSE          license terms
 ```
 
-This repo does not define domain-specific playbooks. Domain examples, extensions, templates, and troubleshooting guides should live in separate repos that conform to WML.
+This repo does not define domain-specific procedures. Domain profiles, examples, templates, and task guides should live in separate repos that conform to WML.
 
 ## How Humans Use WML With Agents
 
@@ -52,28 +52,29 @@ First read:
 - AGENT.md
 - CONFORMANCE.md
 
-Create a WML world for the task, perform the work inside that world, and produce WML-conformant outputs.
+Create a WML world for the task, maintain that world as the task progresses, and produce WML-conformant outputs.
 
 Task:
 <describe the task>
 ```
 
-## Expected Agent Flow
+## What WML Describes
 
-An agent should:
+WML describes:
 
-1. Read the WML standard.
-2. Read the human task prompt.
-3. Create or update a WML world.
-4. Represent task objects as entities.
-5. Declare goals, state, capabilities, and permissions.
-6. Propose non-trivial actions before execution.
-7. Record receipts after execution, rejection, failure, or deferral.
-8. Store evidence separately from inference.
-9. Track hypotheses by status.
-10. Produce a final report and conformance report.
+- the world an agent is operating in
+- the objects that exist in that world
+- what is currently known about those objects
+- what the agent is trying to accomplish
+- what capabilities are available
+- what permissions constrain those capabilities
+- what actions were proposed
+- what observations became evidence
+- what hypotheses are under consideration
+- what receipts show about proposed actions
+- what final claims are justified
 
-The agent may use tools, external tool servers, sub-agents, harness workflows, or generated task-specific agents if needed. WML does not prescribe the runtime. WML defines the world and the artifacts that make the task reviewable.
+WML does not schedule, execute, or orchestrate the task. An agent may use any execution mechanism available in its environment. WML is the shared description of the world and the reviewable record of what happened in that world.
 
 ## Current Scope
 
