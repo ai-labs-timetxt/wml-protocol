@@ -11,4 +11,4 @@ Suggested classes:
 - `explicit_user_confirmation`
 - `dangerous_denied_by_default`
 
-For AWS, all mutating actions must require explicit human approval unless the user gives a very specific instruction otherwise.
+Side-effecting actions must require approval unless the active permission policy explicitly allows them.

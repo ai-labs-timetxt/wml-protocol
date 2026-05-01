@@ -77,7 +77,7 @@ A WML world should define:
 
 WML is not necessarily a software package.
 
-A GitHub repo can act as a WML protocol source. A coding agent can download the repo, read the RFCs and templates, and use WML to structure a real task.
+A protocol document collection can act as a WML source. A coding agent can read the RFCs and templates, then use WML to structure a real task.
 
 ## Hello World, not Hello Page
 

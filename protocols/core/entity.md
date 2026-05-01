@@ -6,11 +6,11 @@ Examples:
 
 - user
 - incident
-- cloudfront_distribution
-- origin
-- s3_bucket
-- bucket_policy
-- waf_acl
+- service
+- resource
+- document
+- policy
+- configuration
 - evidence_item
 - hypothesis
 - report

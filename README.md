@@ -2,81 +2,148 @@
 
 **WML** stands for **World Markup Language**.
 
-WML is an agent-native world protocol. It is not a UI framework, not HTML for humans, not a SaaS wrapper, and not merely tool calling.
-
-The core idea:
+WML is an agent-native world protocol. It is not HTML for humans, not a UI framework, not a SaaS wrapper, and not merely tool calling.
 
 > HTML describes pages for human browsers.  
 > WML describes worlds for AI agents.
 
-WML exists to help agents understand a task world, design a compliant workflow, distinguish observation from inference, follow permission boundaries, produce evidence, and emit receipts.
+WML helps agents represent task worlds, entities, state, capabilities, permissions, action proposals, evidence, hypotheses, receipts, and final reports. The model proposes; a runtime, reviewer, validator, or human disposes.
 
-## Core mottos
+## Three Layers
 
-> Model proposes. Runtime or reviewer disposes.
+This repo separates WML into three layers:
 
-> Hello World, not Hello Page.
+1. **Core Protocol**: domain-neutral WML concepts and conformance rules.
+2. **Domain Extensions**: mappings from WML concepts into a specific environment.
+3. **Use-case Playbooks**: concrete task guides, templates, prompts, and report structures built on core plus one or more extensions.
 
-## What this repo is
+Core WML should be useful across troubleshooting, research, security review, infrastructure audit, long-running task execution, and multi-agent handoff. Domain extensions and playbooks make those generic concepts practical for specific worlds.
+
+## What This Repo Is
 
 This repo is a protocol-first, code-free draft.
 
 It contains:
 
-- RFC drafts
-- Core protocol concepts
-- Agent conformance rules
-- AWS troubleshooting playbooks
-- CloudFront 403 templates
-- Prompts for Kiro, Codex, and Claude Code
+- core RFC drafts
+- core protocol concept documents
+- domain extension drafts
+- conformance checklists and reviewer prompts
+- use-case playbooks and templates
+- generic and domain-specific agent prompts
 
-The intended usage is simple:
+It does not contain a runtime, SDK, Python implementation, or execution framework.
 
-1. Give this repo URL to a coding agent.
-2. Ask the agent to read and follow WML.
-3. Give the agent a real task, such as AWS CloudFront 403 troubleshooting.
-4. The agent should create a WML world, design the required workflow, collect evidence, produce receipts, and generate a final report.
-5. A second agent or human reviewer can check WML conformance.
+## Core Positioning
 
-## What WML is for
+> Model proposes. Runtime or reviewer disposes.
 
-WML is most useful when a task has:
+> Hello World, not Hello Page.
 
-- state
-- tools
-- permissions
-- consequences
-- evidence
-- hypotheses
-- long-running steps
-- audit requirements
-- multi-agent handoff
+A WML-compliant agent should:
 
-Examples:
+1. Read the shared protocol.
+2. Build or update a task world.
+3. Represent relevant task objects as entities.
+4. Declare goals, state, capabilities, and permissions.
+5. Propose non-trivial actions before execution.
+6. Record receipts after execution, rejection, failure, or deferral.
+7. Store evidence separately from inference.
+8. Track hypotheses by status.
+9. Produce a final report that cites evidence and receipts.
+10. Produce a conformance report that another agent or human can review.
 
-- AWS troubleshooting
-- DevOps incident investigation
-- security review
-- infrastructure audit
-- technical research with evidence
-- multi-agent workflow design
-
-## Recommended first real-world use case
-
-**WML for AWS CloudFront 403 Troubleshooting**
-
-AWS is a strong fit for WML because AWS resources, configurations, logs, policies, events, and CLI outputs are highly text-structured.
-
-The agent can use a local AWS profile from:
+## Repository Structure
 
 ```text
-~/.aws/config
-~/.aws/credentials
+rfcs/
+  core/
+    0001-world-markup-language.md
+    0002-action-proposal-and-receipt.md
+    0003-agent-conformance.md
+  extensions/
+    aws/
+      0101-wml-aws-extension.md
+
+protocols/
+  core/
+    world.md
+    entity.md
+    state.md
+    capability.md
+    permission.md
+    action-proposal.md
+    receipt.md
+    evidence.md
+    hypothesis.md
+
+conformance/
+  core/
+    checklist.md
+    rules.md
+    reviewer-prompt.md
+  extensions/
+    aws/
+      checklist.md
+      permission-policy.md
+      reviewer-prompt.md
+
+extensions/
+  aws/
+    README.md
+    concepts.md
+    permission-classes.md
+    resource-entity-mapping.md
+    aws-cli-capabilities.md
+
+playbooks/
+  aws/
+    cloudfront-403/
+      README.md
+      world.template.wml.json
+      action-proposal.template.json
+      receipt.template.json
+      evidence.template.json
+      hypothesis.template.json
+      final-report.template.md
+      agent-prompt.md
+
+prompts/
+  generic/
+    wml-agent.md
+    wml-reviewer.md
+  aws/
+    cloudfront-403-agent.md
+
+examples/
+  hello-world/
+    world.wml.json
+  aws/
+    cloudfront-403/
+      README.md
 ```
 
-Read-only AWS inspections may be treated as `auto` capabilities. Mutating actions must require explicit human approval.
+## Starting Points
 
-## Minimal usage prompt
+- Core protocol: [rfcs/core/0001-world-markup-language.md](rfcs/core/0001-world-markup-language.md)
+- Action proposals and receipts: [rfcs/core/0002-action-proposal-and-receipt.md](rfcs/core/0002-action-proposal-and-receipt.md)
+- Agent conformance: [rfcs/core/0003-agent-conformance.md](rfcs/core/0003-agent-conformance.md)
+- Core checklist: [conformance/core/checklist.md](conformance/core/checklist.md)
+- Generic agent prompt: [prompts/generic/wml-agent.md](prompts/generic/wml-agent.md)
+
+## First Domain Extension
+
+The first concrete extension is AWS:
+
+- AWS extension RFC: [rfcs/extensions/aws/0101-wml-aws-extension.md](rfcs/extensions/aws/0101-wml-aws-extension.md)
+- AWS extension guide: [extensions/aws/README.md](extensions/aws/README.md)
+- AWS conformance checklist: [conformance/extensions/aws/checklist.md](conformance/extensions/aws/checklist.md)
+- CloudFront 403 playbook: [playbooks/aws/cloudfront-403/README.md](playbooks/aws/cloudfront-403/README.md)
+- CloudFront 403 agent prompt: [prompts/aws/cloudfront-403-agent.md](prompts/aws/cloudfront-403-agent.md)
+
+AWS troubleshooting is a strong use case for WML because resources, configuration, policies, logs, events, and CLI outputs are structured and evidence-rich. AWS is an example extension, not the definition of WML.
+
+## Minimal Generic Usage Prompt
 
 ```text
 Download and read this WML protocol repo.
@@ -84,64 +151,17 @@ Download and read this WML protocol repo.
 Follow the WML protocol strictly.
 
 Task:
-Troubleshoot a CloudFront 403 issue in my AWS account.
-
-AWS access:
-Use local AWS profile: <profile-name>
-Profile is configured in ~/.aws/config and ~/.aws/credentials.
-
-Target:
-CloudFront distribution ID: <distribution-id>
-Symptom:
-Viewer receives HTTP 403.
+<describe the task world and goal>
 
 Rules:
-1. Build a WML world for this troubleshooting case.
-2. Treat AWS resources as WML entities.
-3. Treat AWS CLI read-only commands as auto capabilities.
-4. Do not make any configuration changes.
-5. Do not modify IAM, S3 bucket policy, CloudFront distribution, WAF, Route 53, or cache invalidation without explicit approval.
-6. Every inspection must produce a receipt.
-7. Every conclusion must be backed by evidence.
-8. Produce a final troubleshooting report with symptom, inspected resources, evidence, ruled-out hypotheses, likely root cause, recommended fix, and actions requiring approval.
-```
-
-## Repository structure
-
-```text
-rfcs/
-  0001-world-markup-language.md
-  0002-action-proposal-and-receipt.md
-  0003-agent-conformance.md
-  0004-wml-for-aws-troubleshooting.md
-
-protocols/core/
-  world.md
-  entity.md
-  capability.md
-  permission.md
-  evidence.md
-  receipt.md
-  hypothesis.md
-
-playbooks/aws/
-  cloudfront-403.md
-
-templates/aws-cloudfront-403/
-  world.wml.json
-  action-proposal.template.json
-  receipt.template.json
-  evidence.template.json
-  hypothesis.template.json
-  final-report.template.md
-
-prompts/
-  kiro/cloudfront-403-agent.md
-  codex/cloudfront-403-agent.md
-  claude-code/cloudfront-403-agent.md
-
-conformance/
-  rules.md
-  checklist.md
-  reviewer-prompt.md
+1. Build or update a WML world for this task.
+2. Represent relevant task objects as WML entities.
+3. Declare capabilities and permissions before using them.
+4. Create action proposals for non-trivial operations.
+5. Create receipts for executed, rejected, failed, or deferred actions.
+6. Separate observation from inference.
+7. Back findings with evidence IDs.
+8. Track hypotheses as verified, ruled_out, partially_supported, or unknown.
+9. Do not claim completion without receipts and evidence.
+10. Produce a final report and conformance report.
 ```

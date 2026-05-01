@@ -1,39 +1,39 @@
 # WML Positioning
 
-## WML vs Harness
+## WML vs Execution Harness
 
-Harness is an execution and orchestration mechanism.
+An execution harness is an orchestration mechanism.
 
-WML is a world description, evidence, permission, and receipt protocol.
+WML is a world description, evidence, permission, action proposal, and receipt protocol.
 
 ```text
 Harness = who runs, when, for how long
-WML     = what world, what rules, what evidence
+WML     = what world, what rules, what evidence, what changed
 ```
 
 They are complementary.
 
-## WML vs AWS DevOps Agent
+## WML vs Domain-Specific Agents
 
-AWS DevOps Agent is a productized autonomous DevOps/SRE agent.
+Domain-specific agents may automate a particular operational area or product category.
 
-WML is an open protocol for representing troubleshooting worlds, evidence, permissions, and receipts.
+WML is an open protocol for representing task worlds, evidence, permissions, hypotheses, and receipts across domains.
 
 WML can be used by many agents:
 
-- Kiro
-- Codex
-- Claude Code
+- coding agents
+- reviewer agents
+- incident agents
+- research agents
 - custom multi-agent systems
-- future DevOps agents
 
-## WML vs MCP
+## WML vs Tool Protocols
 
-MCP exposes tools.
+Tool protocols expose callable tools.
 
 WML describes the world in which tools are meaningful.
 
 ```text
-MCP asks: what tools can be called?
+Tool protocol asks: what tools can be called?
 WML asks: what world am I in, what is the goal, what is allowed, what evidence exists, and what changed?
 ```

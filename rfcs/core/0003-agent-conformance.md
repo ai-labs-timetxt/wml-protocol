@@ -7,7 +7,7 @@ Created: 2026-05-01
 
 This RFC defines what it means for an agent to be WML-compliant during a task.
 
-WML conformance is especially important for coding agents such as Kiro, Codex, Claude Code, and similar systems.
+WML conformance is especially important for coding agents, autonomous task agents, reviewer agents, and similar systems.
 
 ## Agent conformance goal
 
@@ -65,11 +65,11 @@ A WML-compliant run should be reviewable by another agent or human without relyi
 
 One agent may perform the task. Another agent may review conformance.
 
-Example:
+Non-normative example:
 
 ```text
-Kiro = implementer
-Codex = reviewer
+Agent A = implementer
+Agent B = reviewer
 WML repo = shared rulebook
 ```
 
@@ -77,10 +77,10 @@ WML repo = shared rulebook
 
 The following behaviors are non-conforming:
 
-- claiming an AWS resource was inspected without evidence
-- executing mutating AWS actions without explicit approval
+- claiming an entity was inspected without evidence
+- executing side-effecting actions without approval under the active permission policy
 - mixing observation and inference
 - producing final conclusions that do not cite evidence
 - omitting receipts for inspections
 - modifying the final state directly without action proposals
-- using credentials or profiles not authorized by the user
+- using capabilities, credentials, or authority not authorized by the user or policy

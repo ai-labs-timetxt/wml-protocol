@@ -5,6 +5,8 @@ You are working with the WML Protocol repo.
 WML is not a UI framework and not a prompt template.  
 WML is an agent-native world protocol.
 
+Follow WML core, the AWS extension, and the CloudFront 403 playbook.
+
 Core rules:
 
 - Model proposes. Runtime or reviewer disposes.
@@ -75,3 +77,4 @@ conformance-report.md
 - modify IAM
 - modify Route 53
 - delete or replace resources
+- expose credentials, secrets, or tokens
