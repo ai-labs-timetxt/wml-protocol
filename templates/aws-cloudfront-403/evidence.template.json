@@ -1,0 +1,13 @@
+{
+  "type": "evidence",
+  "id": "ev_001",
+  "world_id": "aws-cloudfront-403-case",
+  "source": "aws_cli",
+  "command": "<read-only command>",
+  "related_entity": "<entity-id>",
+  "observation": "<fact observed from command output>",
+  "raw_output_location": "<optional-file-path>",
+  "supports_hypotheses": [],
+  "rules_out_hypotheses": [],
+  "timestamp": "<timestamp>"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "action_proposal",
+  "id": "ap_001",
+  "world_id": "aws-cloudfront-403-case",
+  "goal_id": "identify_root_cause",
+  "target_entity": "cloudfront_distribution",
+  "capability_id": "inspect_distribution_config",
+  "permission_class": "read_only_auto",
+  "arguments": {
+    "aws_profile": "<profile-name>",
+    "distribution_id": "<distribution-id>",
+    "command": "aws cloudfront get-distribution-config --id <distribution-id> --profile <profile-name>"
+  }
+}

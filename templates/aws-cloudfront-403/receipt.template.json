@@ -1,0 +1,11 @@
+{
+  "type": "receipt",
+  "id": "r_001",
+  "world_id": "aws-cloudfront-403-case",
+  "action_proposal_id": "ap_001",
+  "status": "success",
+  "permission_class": "read_only_auto",
+  "evidence_id": "ev_001",
+  "summary": "CloudFront distribution configuration was inspected.",
+  "timestamp": "<timestamp>"
+}

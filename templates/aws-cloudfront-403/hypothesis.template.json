@@ -1,0 +1,8 @@
+{
+  "type": "hypothesis",
+  "id": "h_s3_policy_denies_cloudfront",
+  "claim": "S3 bucket policy denies CloudFront access.",
+  "status": "unknown",
+  "evidence": [],
+  "notes": ""
+}

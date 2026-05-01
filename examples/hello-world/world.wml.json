@@ -1,0 +1,38 @@
+{
+  "wml_version": "0.1",
+  "world": {
+    "id": "hello-world",
+    "type": "minimal_world",
+    "description": "A minimal WML world."
+  },
+  "entities": [
+    {
+      "id": "user",
+      "type": "human",
+      "state": {
+        "name": "Jason"
+      }
+    },
+    {
+      "id": "greeting_box",
+      "type": "message_container",
+      "state": {
+        "message": null
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "write_message",
+      "target_entity": "greeting_box",
+      "permission_class": "analysis_auto",
+      "effect": "Set greeting_box.state.message"
+    }
+  ],
+  "goals": [
+    {
+      "id": "goal_1",
+      "description": "Put a greeting message into greeting_box."
+    }
+  ]
+}

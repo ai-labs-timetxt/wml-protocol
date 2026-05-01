@@ -1,0 +1,75 @@
+{
+  "wml_version": "0.1",
+  "world": {
+    "id": "aws-cloudfront-403-case",
+    "type": "aws_troubleshooting_world",
+    "description": "A WML world for troubleshooting CloudFront HTTP 403."
+  },
+  "task": {
+    "service": "cloudfront",
+    "symptom": "Viewer receives HTTP 403.",
+    "aws_profile": "<profile-name>",
+    "distribution_id": "<distribution-id>",
+    "sample_url": "<optional-url>",
+    "time_range": "<optional-time-range>"
+  },
+  "entities": [
+    {
+      "id": "incident",
+      "type": "symptom",
+      "state": {
+        "http_status": 403,
+        "description": "Viewer receives HTTP 403."
+      }
+    },
+    {
+      "id": "aws_profile",
+      "type": "credential_context",
+      "state": {
+        "profile_name": "<profile-name>",
+        "source": "~/.aws/config"
+      }
+    },
+    {
+      "id": "cloudfront_distribution",
+      "type": "aws_resource",
+      "state": {
+        "distribution_id": "<distribution-id>",
+        "config_loaded": false
+      }
+    },
+    {
+      "id": "hypotheses",
+      "type": "hypothesis_set",
+      "state": {
+        "items": [
+          {"id": "h_s3_policy_denies_cloudfront", "status": "unknown"},
+          {"id": "h_oac_oai_misconfigured", "status": "unknown"},
+          {"id": "h_waf_blocks_request", "status": "unknown"},
+          {"id": "h_geo_restriction", "status": "unknown"},
+          {"id": "h_signed_url_or_cookie_required", "status": "unknown"},
+          {"id": "h_origin_returns_403", "status": "unknown"},
+          {"id": "h_behavior_mismatch", "status": "unknown"}
+        ]
+      }
+    }
+  ],
+  "permissions": {
+    "read_only_aws_cli": "auto",
+    "local_file_read": "auto",
+    "analysis": "auto",
+    "draft_report": "auto",
+    "write_or_modify_aws_resource": "explicit_user_confirmation",
+    "delete_or_destructive_action": "dangerous_denied_by_default"
+  },
+  "goals": [
+    {
+      "id": "identify_root_cause",
+      "description": "Identify the most likely root cause of the CloudFront 403 issue with evidence."
+    },
+    {
+      "id": "produce_report",
+      "description": "Produce a WML-compliant troubleshooting report."
+    }
+  ]
+}
