@@ -1,0 +1,104 @@
+{
+  "wml_version": "0.1",
+  "world": {
+    "id": "hello-world",
+    "type": "minimal_world",
+    "description": "A minimal WML world."
+  },
+  "goals": [
+    {
+      "id": "goal_1",
+      "description": "Set a greeting message.",
+      "status": "in_progress",
+      "success_criteria": "The message entity has evidence-backed state showing a greeting."
+    }
+  ],
+  "entities": [
+    {
+      "id": "human_user",
+      "type": "human",
+      "description": "The human who requested the task.",
+      "state": {}
+    },
+    {
+      "id": "message",
+      "type": "document",
+      "description": "A small message produced inside the world.",
+      "state": {
+        "text": null
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "draft_message",
+      "description": "Draft a greeting message.",
+      "target_entity": "message",
+      "permission_class": "draft_only_auto",
+      "expected_evidence": "A text observation of the drafted message.",
+      "expected_effect": "message.state.text is updated after a receipt.",
+      "risk": "low"
+    }
+  ],
+  "permissions": {
+    "draft_only_auto": {
+      "description": "The agent may draft text without additional approval."
+    },
+    "explicit_user_confirmation": {
+      "description": "The agent must ask before side-effecting actions."
+    }
+  },
+  "action_proposals": [
+    {
+      "id": "ap_001",
+      "world_id": "hello-world",
+      "goal_id": "goal_1",
+      "target_entity": "message",
+      "capability_id": "draft_message",
+      "permission_class": "draft_only_auto",
+      "arguments": {
+        "text": "Hello, world."
+      },
+      "expected_evidence": "ev_001",
+      "expected_effect": "Set message.state.text.",
+      "risk": "low"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "r_001",
+      "world_id": "hello-world",
+      "action_proposal_id": "ap_001",
+      "status": "success",
+      "permission_class": "draft_only_auto",
+      "timestamp": "2026-05-01T00:00:00Z",
+      "evidence_id": "ev_001",
+      "summary": "The greeting message was drafted."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_001",
+      "world_id": "hello-world",
+      "source": "agent_draft",
+      "collection_method": "draft_text",
+      "timestamp": "2026-05-01T00:00:00Z",
+      "related_entity": "message",
+      "observation": "Drafted message text is 'Hello, world.'",
+      "raw_reference": null,
+      "supports_hypotheses": [],
+      "rules_out_hypotheses": []
+    }
+  ],
+  "hypotheses": [],
+  "final_report": {
+    "facts": [
+      "Receipt r_001 records that action proposal ap_001 succeeded.",
+      "Evidence ev_001 records the drafted greeting text."
+    ],
+    "hypotheses": [],
+    "recommendations": [],
+    "pending_actions": [],
+    "remaining_unknowns": []
+  }
+}

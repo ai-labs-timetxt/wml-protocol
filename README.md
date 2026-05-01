@@ -7,161 +7,76 @@ WML is an agent-native world protocol. It is not HTML for humans, not a UI frame
 > HTML describes pages for human browsers.  
 > WML describes worlds for AI agents.
 
-WML helps agents represent task worlds, entities, state, capabilities, permissions, action proposals, evidence, hypotheses, receipts, and final reports. The model proposes; a runtime, reviewer, validator, or human disposes.
+WML gives AI agents a shared way to represent a task world: entities, state, goals, capabilities, permissions, action proposals, evidence, hypotheses, receipts, and final reports.
 
-## Three Layers
-
-This repo separates WML into three layers:
-
-1. **Core Protocol**: domain-neutral WML concepts and conformance rules.
-2. **Domain Extensions**: mappings from WML concepts into a specific environment.
-3. **Use-case Playbooks**: concrete task guides, templates, prompts, and report structures built on core plus one or more extensions.
-
-Core WML should be useful across troubleshooting, research, security review, infrastructure audit, long-running task execution, and multi-agent handoff. Domain extensions and playbooks make those generic concepts practical for specific worlds.
+The model proposes. A runtime, reviewer, validator, or human disposes.
 
 ## What This Repo Is
 
-This repo is a protocol-first, code-free draft.
+This repo defines the WML standard.
 
-It contains:
-
-- core RFC drafts
-- core protocol concept documents
-- domain extension drafts
-- conformance checklists and reviewer prompts
-- use-case playbooks and templates
-- generic and domain-specific agent prompts
-
-It does not contain a runtime, SDK, Python implementation, or execution framework.
-
-## Core Positioning
-
-> Model proposes. Runtime or reviewer disposes.
-
-> Hello World, not Hello Page.
-
-A WML-compliant agent should:
-
-1. Read the shared protocol.
-2. Build or update a task world.
-3. Represent relevant task objects as entities.
-4. Declare goals, state, capabilities, and permissions.
-5. Propose non-trivial actions before execution.
-6. Record receipts after execution, rejection, failure, or deferral.
-7. Store evidence separately from inference.
-8. Track hypotheses by status.
-9. Produce a final report that cites evidence and receipts.
-10. Produce a conformance report that another agent or human can review.
-
-## Repository Structure
+It is intentionally small:
 
 ```text
-rfcs/
-  core/
-    0001-world-markup-language.md
-    0002-action-proposal-and-receipt.md
-    0003-agent-conformance.md
-  extensions/
-    aws/
-      0101-wml-aws-extension.md
-
-protocols/
-  core/
-    world.md
-    entity.md
-    state.md
-    capability.md
-    permission.md
-    action-proposal.md
-    receipt.md
-    evidence.md
-    hypothesis.md
-
-conformance/
-  core/
-    checklist.md
-    rules.md
-    reviewer-prompt.md
-  extensions/
-    aws/
-      checklist.md
-      permission-policy.md
-      reviewer-prompt.md
-
-extensions/
-  aws/
-    README.md
-    concepts.md
-    permission-classes.md
-    resource-entity-mapping.md
-    aws-cli-capabilities.md
-
-playbooks/
-  aws/
-    cloudfront-403/
-      README.md
-      world.template.wml.json
-      action-proposal.template.json
-      receipt.template.json
-      evidence.template.json
-      hypothesis.template.json
-      final-report.template.md
-      agent-prompt.md
-
-prompts/
-  generic/
-    wml-agent.md
-    wml-reviewer.md
-  aws/
-    cloudfront-403-agent.md
-
-examples/
-  hello-world/
-    world.wml.json
-  aws/
-    cloudfront-403/
-      README.md
+README.md        what this is and how humans give it to agents
+SPEC.md          the WML standard
+AGENT.md         how an agent should operate in a WML world
+CONFORMANCE.md   how to judge whether a run followed WML
+EXAMPLE.wml.json a minimal WML world
+LICENSE          license terms
 ```
 
-## Starting Points
+This repo does not define domain-specific playbooks. Domain examples, extensions, templates, and troubleshooting guides should live in separate repos that conform to WML.
 
-- Core protocol: [rfcs/core/0001-world-markup-language.md](rfcs/core/0001-world-markup-language.md)
-- Action proposals and receipts: [rfcs/core/0002-action-proposal-and-receipt.md](rfcs/core/0002-action-proposal-and-receipt.md)
-- Agent conformance: [rfcs/core/0003-agent-conformance.md](rfcs/core/0003-agent-conformance.md)
-- Core checklist: [conformance/core/checklist.md](conformance/core/checklist.md)
-- Generic agent prompt: [prompts/generic/wml-agent.md](prompts/generic/wml-agent.md)
+## How Humans Use WML With Agents
 
-## First Domain Extension
+Make this repo readable by the AI agent. Common options:
 
-The first concrete extension is AWS:
+- open this repo as the agent's project or working context
+- place this repo in an agent-readable skills, knowledge, or reference directory
+- reference the local path to this repo in the task prompt
+- paste the relevant WML files into the agent session when persistent files are not available
 
-- AWS extension RFC: [rfcs/extensions/aws/0101-wml-aws-extension.md](rfcs/extensions/aws/0101-wml-aws-extension.md)
-- AWS extension guide: [extensions/aws/README.md](extensions/aws/README.md)
-- AWS conformance checklist: [conformance/extensions/aws/checklist.md](conformance/extensions/aws/checklist.md)
-- CloudFront 403 playbook: [playbooks/aws/cloudfront-403/README.md](playbooks/aws/cloudfront-403/README.md)
-- CloudFront 403 agent prompt: [prompts/aws/cloudfront-403-agent.md](prompts/aws/cloudfront-403-agent.md)
+Then give the agent a human task prompt and tell it to follow WML.
 
-AWS troubleshooting is a strong use case for WML because resources, configuration, policies, logs, events, and CLI outputs are structured and evidence-rich. AWS is an example extension, not the definition of WML.
-
-## Minimal Generic Usage Prompt
+Example:
 
 ```text
-Download and read this WML protocol repo.
+Read the WML protocol at <path-to-this-repo>.
 
-Follow the WML protocol strictly.
+Use WML as the governing protocol for this task.
+
+First read:
+- README.md
+- SPEC.md
+- AGENT.md
+- CONFORMANCE.md
+
+Create a WML world for the task, perform the work inside that world, and produce WML-conformant outputs.
 
 Task:
-<describe the task world and goal>
-
-Rules:
-1. Build or update a WML world for this task.
-2. Represent relevant task objects as WML entities.
-3. Declare capabilities and permissions before using them.
-4. Create action proposals for non-trivial operations.
-5. Create receipts for executed, rejected, failed, or deferred actions.
-6. Separate observation from inference.
-7. Back findings with evidence IDs.
-8. Track hypotheses as verified, ruled_out, partially_supported, or unknown.
-9. Do not claim completion without receipts and evidence.
-10. Produce a final report and conformance report.
+<describe the task>
 ```
+
+## Expected Agent Flow
+
+An agent should:
+
+1. Read the WML standard.
+2. Read the human task prompt.
+3. Create or update a WML world.
+4. Represent task objects as entities.
+5. Declare goals, state, capabilities, and permissions.
+6. Propose non-trivial actions before execution.
+7. Record receipts after execution, rejection, failure, or deferral.
+8. Store evidence separately from inference.
+9. Track hypotheses by status.
+10. Produce a final report and conformance report.
+
+The agent may use tools, external tool servers, sub-agents, harness workflows, or generated task-specific agents if needed. WML does not prescribe the runtime. WML defines the world and the artifacts that make the task reviewable.
+
+## Current Scope
+
+WML starts with one task inside one WML world.
+
+Future versions may define how WML worlds link, delegate, import evidence, and communicate with each other. Until then, a WML run should keep all required task artifacts in one world unless the human explicitly defines a larger structure.
