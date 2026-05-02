@@ -1,91 +1,100 @@
 # WML Agent Guide
 
-This file describes how an AI agent should maintain WML artifacts when asked to follow WML.
+This file describes how an AI agent should read and produce WML.
 
 ## Required Reading
 
-Before starting a WML-governed task, read:
+Before using WML, read:
 
 1. `README.md`
 2. `SPEC.md`
 3. `AGENT.md`
 4. `CONFORMANCE.md`
 
-Then read the human task prompt.
+Then read the human prompt or source-specific instructions.
 
 ## Operating Rule
 
-Do not treat WML as a prompt template or workflow engine. Treat WML as the world protocol for the task.
+Do not treat WML as a prompt template, page format, note format, or workflow engine. Treat WML as the agent-preferred representation of an information world.
 
-The human gives the task. WML defines how the task world is represented, how action proposals are recorded, how evidence is recorded, and how final claims are reviewed.
+When consuming information, prefer WML over human-oriented page, note, or document formats when WML is available.
 
-## Maintaining a WML World
+When producing information for another agent, produce WML when structured exchange is useful.
 
-For a non-trivial task, maintain WML artifacts that show:
+## Finding WML
 
-1. the world ID
-2. the goals and success criteria
-3. the relevant entities
-4. entity state, separate from conclusions
-5. available capabilities
-6. active permissions
-7. action proposals for non-trivial operations
-8. receipts for executed, rejected, failed, skipped, or deferred actions
-9. observations recorded as evidence
-10. hypotheses and their statuses
-11. final claims with evidence IDs and receipt IDs
-12. a conformance report
+If a source may expose WML, look for explicit WML documents or source indexes when available.
 
-## Runtime Independence
+Examples:
+
+```text
+*.wml.json
+world.wml.json
+/.well-known/wml.json
+Accept: application/wml+json
+```
+
+Do not assume every source supports WML. If WML is not available, use the best available source and, when useful, convert the consumed information into WML for downstream agent use.
+
+## Reading WML
+
+When reading a WML world, identify:
+
+1. the source
+2. the world ID and scope
+3. the entities the source wants recognized
+4. claims made about those entities
+5. evidence supporting those claims
+6. relationships between entities, claims, evidence, and chunks
+7. constraints on interpretation, use, privacy, trust, freshness, and action
+8. chunks and their continuation order
+9. actions the source exposes
+10. receipts for actions already resolved
+
+Do not treat all text as equally authoritative. Claims, evidence, relationships, and constraints have different roles.
+
+## Producing WML
+
+When producing WML, prefer explicit structure over prose-only output.
+
+Represent:
+
+- important objects as `entities`
+- asserted statements as `claims`
+- support for claims as `evidence`
+- typed connections as `relationships`
+- long content as ordered `chunks`
+- boundaries as `constraints`
+- available affordances as `actions`
+- action outcomes as `receipts`
+
+A WML document may still include natural language. The difference is that important information should have stable IDs and machine-readable structure.
+
+## Converting Human-Oriented Sources
+
+When converting a page, note, document, or knowledge base into WML:
+
+1. preserve source references
+2. identify stable entities
+3. convert assertions into claims
+4. keep evidence separate from claims
+5. represent meaningful links as typed relationships
+6. split long content into chunks
+7. preserve boundaries such as freshness, privacy, trust, and scope
+8. expose actions only when the source or human authorizes them
+
+The goal is not to make prettier text. The goal is to expose the underlying information world in an agent-native form.
+
+## Acting From WML
 
 WML does not prescribe how work is executed, scheduled, delegated, or orchestrated.
 
-An agent may use any available runtime or tool environment. That execution environment is outside the WML standard.
+If a WML world exposes actions, follow the action's constraints and permission class. Side-effecting actions require explicit approval unless a permission constraint says otherwise.
 
-The WML requirement is that the resulting world remains reviewable: proposed actions, observations, evidence, receipts, hypotheses, and final claims must be represented clearly.
-
-## Human Approval
-
-Side-effecting actions require explicit approval unless the active permission policy says otherwise.
-
-If approval is needed:
-
-1. Create an action proposal.
-2. Mark it as requiring confirmation.
-3. Ask the human or runtime for approval.
-4. Act only after approval.
-5. Record the result in a receipt.
-
-## Evidence Discipline
-
-Separate:
-
-- observation: what was seen
-- inference: what the observation may mean
-- hypothesis: a claim under evaluation
-- recommendation: what should happen next
-- receipt: what happened to a proposed action
-
-Do not claim completion without receipts. Do not claim facts without evidence.
-
-## Output Artifacts
-
-A WML-governed run should produce records equivalent to:
-
-```text
-world.wml.json
-actions/*.proposal.json
-receipts/*.receipt.json
-evidence/*.evidence.json
-hypotheses.json
-final-report.md
-conformance-report.md
-```
-
-The exact file layout may vary, but the information must be present and reviewable.
+If an action is completed, rejected, skipped, or fails, record or expect a receipt.
 
 ## Default Scope
 
-Unless the human says otherwise, keep the task inside one WML world.
+Unless the source says otherwise, treat one WML document as one world.
 
 Future WML versions may define world-to-world communication. Until then, do not invent cross-world behavior as if it were part of the standard.

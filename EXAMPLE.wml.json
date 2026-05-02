@@ -1,104 +1,329 @@
 {
   "wml_version": "0.1",
   "world": {
-    "id": "hello-world",
-    "type": "minimal_world",
-    "description": "A minimal WML world."
+    "id": "garden-knowledge-base-001",
+    "type": "knowledge_world",
+    "title": "Community Garden Knowledge Base",
+    "scope": "A small source-published WML world converted from two human-oriented notes."
   },
-  "goals": [
-    {
-      "id": "goal_1",
-      "description": "Set a greeting message.",
-      "status": "in_progress",
-      "success_criteria": "The message entity has evidence-backed state showing a greeting."
-    }
-  ],
+  "source": {
+    "id": "example_notes_export",
+    "name": "Example Notes Export",
+    "url": "file://example-notes/",
+    "published_at": "2026-05-02T09:00:00Z",
+    "updated_at": "2026-05-02T09:00:00Z"
+  },
   "entities": [
     {
-      "id": "human_user",
-      "type": "human",
-      "description": "The human who requested the task.",
-      "state": {}
-    },
-    {
-      "id": "message",
-      "type": "document",
-      "description": "A small message produced inside the world.",
+      "id": "note_winter_beds",
+      "type": "note",
+      "name": "Preparing Beds for Winter",
+      "description": "A note about preparing shared garden beds before winter.",
       "state": {
-        "text": null
-      }
-    }
-  ],
-  "capabilities": [
-    {
-      "id": "draft_message",
-      "description": "Draft a greeting message.",
-      "target_entity": "message",
-      "permission_class": "draft_only_auto",
-      "expected_evidence": "A text observation of the drafted message.",
-      "expected_effect": "message.state.text is updated after a receipt.",
-      "risk": "low"
-    }
-  ],
-  "permissions": {
-    "draft_only_auto": {
-      "description": "The agent may draft text without additional approval."
-    },
-    "explicit_user_confirmation": {
-      "description": "The agent must ask before side-effecting actions."
-    }
-  },
-  "action_proposals": [
-    {
-      "id": "ap_001",
-      "world_id": "hello-world",
-      "goal_id": "goal_1",
-      "target_entity": "message",
-      "capability_id": "draft_message",
-      "permission_class": "draft_only_auto",
-      "arguments": {
-        "text": "Hello, world."
+        "status": "current",
+        "format_before_wml": "markdown_note"
       },
-      "expected_evidence": "ev_001",
-      "expected_effect": "Set message.state.text.",
-      "risk": "low"
+      "source": "example_notes_export",
+      "claim_ids": [
+        "claim_mulch_depth",
+        "claim_remove_diseased_leaves"
+      ],
+      "evidence_ids": [
+        "ev_note_winter_beds"
+      ]
+    },
+    {
+      "id": "note_compost",
+      "type": "note",
+      "name": "Compost Bay Rotation",
+      "description": "A note about rotating compost bays.",
+      "state": {
+        "status": "current",
+        "format_before_wml": "markdown_note"
+      },
+      "source": "example_notes_export",
+      "claim_ids": [
+        "claim_compost_rotation"
+      ],
+      "evidence_ids": [
+        "ev_note_compost"
+      ]
+    },
+    {
+      "id": "practice_mulching",
+      "type": "practice",
+      "name": "Mulching",
+      "description": "A gardening practice described by the knowledge base.",
+      "state": {},
+      "source": "example_notes_export",
+      "claim_ids": [
+        "claim_mulch_depth"
+      ],
+      "evidence_ids": [
+        "ev_note_winter_beds"
+      ]
+    },
+    {
+      "id": "practice_compost_rotation",
+      "type": "practice",
+      "name": "Compost Rotation",
+      "description": "A gardening practice described by the knowledge base.",
+      "state": {},
+      "source": "example_notes_export",
+      "claim_ids": [
+        "claim_compost_rotation"
+      ],
+      "evidence_ids": [
+        "ev_note_compost"
+      ]
     }
   ],
-  "receipts": [
+  "claims": [
     {
-      "id": "r_001",
-      "world_id": "hello-world",
-      "action_proposal_id": "ap_001",
-      "status": "success",
-      "permission_class": "draft_only_auto",
-      "timestamp": "2026-05-01T00:00:00Z",
-      "evidence_id": "ev_001",
-      "summary": "The greeting message was drafted."
+      "id": "claim_mulch_depth",
+      "subject_entity": "practice_mulching",
+      "predicate": "recommended_depth",
+      "object": "5-7 cm",
+      "text": "Garden beds should be covered with 5-7 cm of mulch before winter.",
+      "source": "note_winter_beds",
+      "evidence_ids": [
+        "ev_note_winter_beds"
+      ],
+      "confidence": "source_asserted",
+      "scope": "Community garden notes only.",
+      "timestamp": "2026-05-02T09:00:00Z"
+    },
+    {
+      "id": "claim_remove_diseased_leaves",
+      "subject_entity": "note_winter_beds",
+      "predicate": "recommends",
+      "object": "remove_diseased_leaves",
+      "text": "Diseased leaves should be removed instead of composted.",
+      "source": "note_winter_beds",
+      "evidence_ids": [
+        "ev_note_winter_beds"
+      ],
+      "confidence": "source_asserted",
+      "scope": "Community garden notes only.",
+      "timestamp": "2026-05-02T09:00:00Z"
+    },
+    {
+      "id": "claim_compost_rotation",
+      "subject_entity": "practice_compost_rotation",
+      "predicate": "rotation_interval",
+      "object": "weekly",
+      "text": "The active compost bay should be turned once per week.",
+      "source": "note_compost",
+      "evidence_ids": [
+        "ev_note_compost"
+      ],
+      "confidence": "source_asserted",
+      "scope": "Community garden notes only.",
+      "timestamp": "2026-05-02T09:00:00Z"
     }
   ],
   "evidence": [
     {
-      "id": "ev_001",
-      "world_id": "hello-world",
-      "source": "agent_draft",
-      "collection_method": "draft_text",
-      "timestamp": "2026-05-01T00:00:00Z",
-      "related_entity": "message",
-      "observation": "Drafted message text is 'Hello, world.'",
-      "raw_reference": null,
-      "supports_hypotheses": [],
-      "rules_out_hypotheses": []
+      "id": "ev_note_winter_beds",
+      "source": "note_winter_beds",
+      "collection_method": "wml_export_from_note",
+      "timestamp": "2026-05-02T09:00:00Z",
+      "related_entity": "note_winter_beds",
+      "supports_claims": [
+        "claim_mulch_depth",
+        "claim_remove_diseased_leaves"
+      ],
+      "observation": "The source note states that beds should receive 5-7 cm of mulch and that diseased leaves should not be composted.",
+      "raw_reference": "chunk_winter_beds_body"
+    },
+    {
+      "id": "ev_note_compost",
+      "source": "note_compost",
+      "collection_method": "wml_export_from_note",
+      "timestamp": "2026-05-02T09:00:00Z",
+      "related_entity": "note_compost",
+      "supports_claims": [
+        "claim_compost_rotation"
+      ],
+      "observation": "The source note states that the active compost bay should be turned once per week.",
+      "raw_reference": "chunk_compost_body"
     }
   ],
-  "hypotheses": [],
-  "final_report": {
-    "facts": [
-      "Receipt r_001 records that action proposal ap_001 succeeded.",
-      "Evidence ev_001 records the drafted greeting text."
-    ],
-    "hypotheses": [],
-    "recommendations": [],
-    "pending_actions": [],
-    "remaining_unknowns": []
-  }
+  "relationships": [
+    {
+      "id": "rel_winter_note_about_mulching",
+      "type": "about",
+      "from": "note_winter_beds",
+      "to": "practice_mulching",
+      "evidence_ids": [
+        "ev_note_winter_beds"
+      ],
+      "description": "The winter beds note is about mulching and winter preparation."
+    },
+    {
+      "id": "rel_compost_note_about_rotation",
+      "type": "about",
+      "from": "note_compost",
+      "to": "practice_compost_rotation",
+      "evidence_ids": [
+        "ev_note_compost"
+      ],
+      "description": "The compost note is about rotating the compost bay."
+    },
+    {
+      "id": "rel_winter_to_compost",
+      "type": "related_to",
+      "from": "note_winter_beds",
+      "to": "note_compost",
+      "evidence_ids": [],
+      "description": "Both notes describe recurring community garden maintenance practices."
+    },
+    {
+      "id": "rel_chunk_order_1",
+      "type": "next_chunk",
+      "from": "chunk_index",
+      "to": "chunk_winter_beds_body",
+      "evidence_ids": [],
+      "description": "The winter beds chunk follows the index chunk."
+    },
+    {
+      "id": "rel_chunk_order_2",
+      "type": "next_chunk",
+      "from": "chunk_winter_beds_body",
+      "to": "chunk_compost_body",
+      "evidence_ids": [],
+      "description": "The compost chunk follows the winter beds chunk."
+    }
+  ],
+  "chunks": [
+    {
+      "id": "chunk_index",
+      "sequence": 1,
+      "title": "Knowledge Base Index",
+      "content": "This WML world exposes two garden notes as entities, claims, evidence, relationships, and chunks.",
+      "entity_ids": [
+        "note_winter_beds",
+        "note_compost"
+      ],
+      "claim_ids": [],
+      "next_chunk": "chunk_winter_beds_body",
+      "previous_chunk": null,
+      "token_estimate": 20
+    },
+    {
+      "id": "chunk_winter_beds_body",
+      "sequence": 2,
+      "title": "Preparing Beds for Winter",
+      "content": "Before winter, cover shared garden beds with 5-7 cm of mulch. Remove diseased leaves instead of adding them to compost.",
+      "entity_ids": [
+        "note_winter_beds",
+        "practice_mulching"
+      ],
+      "claim_ids": [
+        "claim_mulch_depth",
+        "claim_remove_diseased_leaves"
+      ],
+      "next_chunk": "chunk_compost_body",
+      "previous_chunk": "chunk_index",
+      "token_estimate": 30
+    },
+    {
+      "id": "chunk_compost_body",
+      "sequence": 3,
+      "title": "Compost Bay Rotation",
+      "content": "Turn the active compost bay once per week. Record the turn date in the garden maintenance log.",
+      "entity_ids": [
+        "note_compost",
+        "practice_compost_rotation"
+      ],
+      "claim_ids": [
+        "claim_compost_rotation"
+      ],
+      "next_chunk": null,
+      "previous_chunk": "chunk_winter_beds_body",
+      "token_estimate": 22
+    }
+  ],
+  "constraints": [
+    {
+      "id": "constraint_scope",
+      "type": "scope",
+      "applies_to": [
+        "world"
+      ],
+      "rule": "Claims describe this exported example knowledge base only and should not be treated as general gardening advice.",
+      "reason": "The source is a small example note collection.",
+      "severity": "normal"
+    },
+    {
+      "id": "constraint_freshness",
+      "type": "freshness",
+      "applies_to": [
+        "claim_mulch_depth",
+        "claim_compost_rotation"
+      ],
+      "rule": "Check for a newer source export before relying on this information after 2026-06-01.",
+      "reason": "Knowledge base exports can become stale.",
+      "severity": "normal"
+    },
+    {
+      "id": "constraint_write_permission",
+      "type": "permission",
+      "applies_to": [
+        "action_suggest_note_update"
+      ],
+      "rule": "The agent may draft a suggested update, but must not edit the source notes without explicit confirmation.",
+      "reason": "Changing a knowledge base is a side effect.",
+      "severity": "high"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_get_chunk",
+      "description": "Request a chunk by ID.",
+      "target_entity": "world",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "chunk_id"
+        ],
+        "properties": {
+          "chunk_id": {
+            "type": "string"
+          }
+        }
+      },
+      "permission_class": "read_only_auto",
+      "expected_result": "The requested chunk content and metadata.",
+      "constraints": [
+        "constraint_scope"
+      ]
+    },
+    {
+      "id": "action_suggest_note_update",
+      "description": "Draft a suggested update to a source note.",
+      "target_entity": "note_winter_beds",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "note_id",
+          "suggested_text"
+        ],
+        "properties": {
+          "note_id": {
+            "type": "string"
+          },
+          "suggested_text": {
+            "type": "string"
+          }
+        }
+      },
+      "permission_class": "explicit_user_confirmation",
+      "expected_result": "A draft suggestion, not a direct edit.",
+      "constraints": [
+        "constraint_write_permission"
+      ]
+    }
+  ],
+  "receipts": []
 }
